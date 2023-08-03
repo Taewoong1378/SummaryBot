@@ -28,14 +28,32 @@ conda update -n base -c defaults conda
 conda config --add channels conda-forge
 ```
 
+### OpenAI API Setup
+It is important that you save your OpenAI API Key as environment variable in your system. The summary script WILL NOT run if it can't find OpenAI Key in your environment variable. 
+
+#### Mac OS 
+- Open your `bash_profile` script
+```bash
+vi ~/.bash_profile
+```
+- Add environment variable in `bash_profile`
+```bash
+export OPENAI_API_KEY="your-key"
+```
+- Apply update to the system
+```bash
+source ~/.bash_profile
+```
+
 ### Run python script
 `main.py` requires 3 arguments
 
 1. Path where transcription text file exists
 2. Type of summary. Should be either "qna" or "lecture" 
 3. Topic of the talk. Write topic in Korean such as "말 잘하기", "생성형 AI 알아보기", ...
+4. Path where you want the output to be saved
  
 Here is the sample command. Replace arguments with your specific needs. 
 ```python
-python3 main.py "./transcription/transcript.txt" "qna" "말 잘하기"
+python3 main.py "./transcription/transcript.txt" "qna" "말 잘하기" "./output/transcript_summary.txt"
 ```

@@ -206,20 +206,21 @@ def main(file_path:str, summary_type:str, topic:str, model:str):
     return summary_results
 
 if __name__ == "__main__":
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 5:
         file_path = sys.argv[1]
         summary_type = sys.argv[2]
         topic = sys.argv[3]
+        output_path = sys.argv[4]
 
         model = check_environment()
         outputs = main(file_path, summary_type, topic, model)
 
-        # tempt -> replace to google docs
-        fname=file_path.split("/")[-1] 
-        with open(f"./{fname}", "w", encoding="utf-8") as writer:
+        # Save output
+        # [TODO] Replace this code to writng in Google Drive docs
+        with open(f"{output_path}", "w", encoding="utf-8") as writer:
             output_txt = "\n\n".join(outputs)
             writer.write(output_txt)
-        print("File Saved.")
+        print(f"Summary Saved at {output_path}. End the program.")
     else:
-        print(f"{sys.argv[0]} file_path('./transcript/fireside.txt') | summary_type('qna' | 'lecture') | topic('말 잘하기')")
+        print(f"{sys.argv[0]} file_path('./transcript/fireside.txt') | summary_type('qna' | 'lecture') | topic('말 잘하기') | output_path('./output/summary.txt')")
 
