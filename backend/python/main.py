@@ -1,21 +1,17 @@
-import os
-import sys
-import re
-import time
-import json
 import copy
+import os
+import re
+import sys
+import time
 
 import openai
 import tiktoken
-from tenacity import (
-    retry,
-    stop_after_attempt,
-    wait_random_exponential,
-)
+from dotenv import load_dotenv
+from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 CUR_DIR = os.path.abspath(os.curdir)
 sys.path.insert(0, CUR_DIR)
-from prompt import type2prompt_messages # PROMPTS
+from prompt import type2prompt_messages  # PROMPTS
 
 MAX_TOKEN_SIZE = {
     "gpt-3.5-turbo" : 4096,
@@ -24,9 +20,15 @@ MAX_TOKEN_SIZE = {
 OUTPUT_TOKEN_SIZE = 1024
 OFFSET = 250 # helping prompts
 
+# Get absolute path to .env file
+env_path = os.path.join(os.path.dirname(__file__), '../.env')
+
+# load .env file
+load_dotenv(env_path)
+
 def check_environment()->str:
     "Check for OpenAI API Key. If it exists, return available model"
-    openai.api_key = os.getenv("OPENAI_API_KEY", "")
+    openai.api_key = os.getenv("OPENAI_API_KEY")
     if openai.api_key == "":
         print("OPENAI API KEY not provided. End the program.")
         sys.exit(1)
