@@ -16,7 +16,7 @@ const __dirname = path.resolve();
 const app = express();
 const prod = process.env.NODE_ENV === 'production';
 
-const transcriptionDir = path.join(__dirname, 'src/python', 'transcription');
+const transcriptionDir = path.join(__dirname, 'python', 'transcription');
 if (!fs.existsSync(transcriptionDir)) {
   fs.mkdirSync(transcriptionDir, { recursive: true });
 }

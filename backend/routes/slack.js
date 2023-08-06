@@ -11,7 +11,7 @@ export const slackMessage = (req, res) => {
   const topic = req.body.topic;
   const outputFile = path.join(
     __dirname,
-    'src/python',
+    'python',
     'output',
     'transcript_summary.txt'
   );
@@ -19,7 +19,7 @@ export const slackMessage = (req, res) => {
   const options = {
     mode: 'text',
     pythonOptions: ['-u'],
-    scriptPath: path.join(__dirname, 'src/python'),
+    scriptPath: path.join(__dirname, 'python'),
     args: [inputFile, mode, topic, outputFile],
   };
 
