@@ -1,0 +1,12 @@
+body {
+	font-family: "Pretendard Variable";
+	color: #000000;
+	font-weight: var(--regular);
+}
+
+@font-face {
+	font-family: "Pretendard Variable";
+	src: url("https://cdn.jsdelivr.net/gh/orioncactus/Pretendard Variable@v1.3.6/dist/web/variable/Pretendard Variablevariable-dynamic-subset.css")
+		format("woff");
+	font-style: normal;
+}

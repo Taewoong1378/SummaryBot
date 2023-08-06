@@ -1,0 +1,23 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "ts-node ../../packages/design-system/src/scripts/create-icon-mapping.ts && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "tsc:check": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@svgr/webpack": "^6.5.1",
+    "@types/uuid": "^8.3.4",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "design-system": "workspace:*",
+    "openai": "^3.3.0"
+  },
+  "devDependencies": {
+    "webpack-shell-plugin-next": "^2.3.1"
+  }
+}
