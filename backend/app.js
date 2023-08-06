@@ -39,7 +39,8 @@ if (prod) {
   app.use(hpp());
   app.use(
     cors({
-      origin: process.env.CLIENT_URL,
+      origin: true,
+      credentials: true,
     })
   );
 } else {
