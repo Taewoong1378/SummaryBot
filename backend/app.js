@@ -2,8 +2,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import fs from 'fs';
-import helmet from 'helmet';
-import hpp from 'hpp';
 import morgan from 'morgan';
 import multer from 'multer';
 import path from 'path';
@@ -14,7 +12,6 @@ dotenv.config();
 const __dirname = path.resolve();
 
 const app = express();
-const prod = process.env.NODE_ENV === 'production';
 
 const transcriptionDir = path.join(__dirname, 'python', 'transcription');
 if (!fs.existsSync(transcriptionDir)) {
@@ -32,26 +29,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-if (prod) {
-  app.enable('trust proxy');
-  app.use(morgan('combined'));
-  app.use(helmet({ contentSecurityPolicy: false }));
-  app.use(hpp());
-  app.use(
-    cors({
-      origin: true,
-      credentials: true,
-    })
-  );
-} else {
-  app.use(morgan('dev'));
-  app.use(
-    cors({
-      origin: true,
-      credentials: true,
-    })
-  );
-}
+app.use(morgan('dev'));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
