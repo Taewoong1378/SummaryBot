@@ -40,7 +40,7 @@ export default function HomePage() {
 
   if (!authentication) {
     return (
-      <main className='flex h-screen w-full items-center justify-center'>
+      <main className='flex w-full items-center justify-center' style={{ minHeight: height }}>
         <form className='flex w-[300px] flex-row gap-6' onSubmit={onSubmit}>
           <Input
             placeholder='비밀번호 입력'
