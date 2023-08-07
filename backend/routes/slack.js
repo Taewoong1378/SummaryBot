@@ -28,7 +28,7 @@ export const slackMessage = (req, res) => {
 
   pythonProcess.stdout.on('data', () => {
     const data = fs.readFileSync(outputFile, 'utf-8');
-    outputData += data.toString();
+    outputData += data;
   });
 
   pythonProcess.stderr.on('data', (data) => {
