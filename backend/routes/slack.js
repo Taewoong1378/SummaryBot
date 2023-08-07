@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { PythonShell } from 'python-shell';
 
 const __dirname = path.resolve();
 
@@ -16,15 +16,31 @@ export const slackMessage = (req, res) => {
     'transcript_summary.txt'
   );
 
-  const options = {
-    mode: 'text',
-    pythonOptions: ['-u'],
-    scriptPath: path.join(__dirname, 'python'),
-    args: [inputFile, mode, topic, outputFile],
-  };
+  const pythonProcess = spawn('python3', [
+    path.join(__dirname, 'python', 'main.py'),
+    inputFile,
+    mode,
+    topic,
+    outputFile,
+  ]);
 
-  PythonShell.run('main.py', options).then(async () => {
+  let outputData = '';
+
+  pythonProcess.stdout.on('data', () => {
     const data = fs.readFileSync(outputFile, 'utf-8');
+    outputData += data.toString();
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  pythonProcess.on('close', async (code) => {
+    if (code !== 0) {
+      console.log(`Python process exited with code ${code}`);
+      return;
+    }
+
     await axios({
       url: process.env.SLACK_WEBHOOK_URL,
       method: 'POST',
@@ -32,9 +48,10 @@ export const slackMessage = (req, res) => {
         'Content-Type': 'application/json',
       },
       data: {
-        text: data,
+        text: outputData,
       },
     });
-    res.send(data);
+
+    res.send(outputData);
   });
 };
