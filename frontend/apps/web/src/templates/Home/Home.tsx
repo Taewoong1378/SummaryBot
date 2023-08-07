@@ -14,6 +14,7 @@ export const Home = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [chatType, setChatType] = useState<ChatTypeEnum>(ChatTypeEnum.QA);
   const [topic, setTopic] = useState<string>('');
+  const [result, setResult] = useState<string>('');
 
   const handleFileUpload = async () => {
     if (!selectedFile) {
@@ -27,19 +28,25 @@ export const Home = () => {
 
     try {
       setLoading(true);
-      await axios.post(`${BACKEND_URL}/txt`, formData, {
+      const { data } = await axios.post(`${BACKEND_URL}/txt`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      setResult(data);
       setLoading(false);
     } catch (error) {
       console.error('Error uploading file:', error);
     }
   };
 
+  const onClickCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    alert('복사되었습니다.');
+  };
+
   return (
-    <div className='flex w-full flex-col items-start gap-32 px-32'>
+    <div className='flex w-full flex-col items-start gap-32 px-32 py-16'>
       {loading && <Loading />}
       <UploadSection onFileChange={setSelectedFile} />
       <RadioGroupSection selectedChatType={chatType} onChatTypeChange={setChatType} />
@@ -48,6 +55,16 @@ export const Home = () => {
         onClick={handleFileUpload}
         disabled={!selectedFile || !topic.length || !chatType}
       />
+      {result && (
+        <>
+          <div className='whitespace-pre-wrap'>{result}</div>{' '}
+          <button
+            className='mt-16 rounded bg-DTRed-400 px-16 py-8 text-white'
+            onClick={() => onClickCopy(result)}>
+            복사하기
+          </button>
+        </>
+      )}
     </div>
   );
 };
