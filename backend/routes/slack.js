@@ -35,6 +35,6 @@ export const slackMessage = (req, res) => {
         text: data,
       },
     });
-    res.send('success');
+    res.send(data);
   });
 };
