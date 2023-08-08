@@ -21,8 +21,10 @@ python-dateutil==2.8.2
 python-dotenv==1.0.0
 pywatchman==1.4.1
 PyYAML==6.0
+redis==4.6.0
 regex==2023.6.3
 requests==2.31.0
+rq==1.15.1
 six==1.16.0
 tenacity==8.2.2
 tiktoken==0.4.0
