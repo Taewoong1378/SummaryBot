@@ -27,7 +27,7 @@ export const slackMessage = (req, res) => {
   let outputData = '';
 
   pythonProcess.stdout.on('data', (data) => {
-    if (data.includes('Summary Saved at')) {
+    if (data.includes('added to queue')) {
       const fileData = fs.readFileSync(outputFile, 'utf-8');
       outputData += fileData;
     }
@@ -43,17 +43,20 @@ export const slackMessage = (req, res) => {
       return;
     }
 
-    await axios({
-      url: process.env.SLACK_WEBHOOK_URL,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        text: outputData,
-      },
-    });
-
-    res.send(outputData);
+    if (outputData.length) {
+      await axios({
+        url: process.env.SLACK_WEBHOOK_URL,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          text: outputData,
+        },
+      });
+      res.send(outputData);
+    } else {
+      res.status(500).send('Something went wrong');
+    }
   });
 };
