@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('hello express');
+  res.send('Server is running');
 });
 
 const port = process.env.PORT || 8000;
@@ -43,5 +43,5 @@ const port = process.env.PORT || 8000;
 app.post('/txt', upload.single('file'), slackMessage);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
