@@ -7,6 +7,8 @@ import time
 import openai
 import tiktoken
 from dotenv import load_dotenv
+from redis import Redis
+from rq import Queue
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 CUR_DIR = os.path.abspath(os.curdir)
@@ -207,6 +209,16 @@ def main(file_path:str, summary_type:str, topic:str, model:str):
 
     return summary_results
 
+def background_task(file_path:str, summary_type:str, topic:str, output_path:str):
+    model = check_environment()
+    outputs = main(file_path, summary_type, topic, model)
+
+    # Save output
+    with open(f"{output_path}", "w", encoding="utf-8") as writer:
+        output_txt = "\n\n".join(outputs)
+        writer.write(output_txt)
+    print(f"Summary Saved at {output_path}. End the program.")
+
 if __name__ == "__main__":
     if len(sys.argv) == 5:
         file_path = sys.argv[1]
@@ -214,15 +226,11 @@ if __name__ == "__main__":
         topic = sys.argv[3]
         output_path = sys.argv[4]
 
-        model = check_environment()
-        outputs = main(file_path, summary_type, topic, model)
+        # Set up RQ queue
+        q = Queue(connection=Redis())
+        job = q.enqueue(background_task, file_path, summary_type, topic, output_path)
 
-        # Save output
-        # [TODO] Replace this code to writng in Google Drive docs
-        with open(f"{output_path}", "w", encoding="utf-8") as writer:
-            output_txt = "\n\n".join(outputs)
-            writer.write(output_txt)
-        print(f"Summary Saved at {output_path}. End the program.")
-    else:
-        print(f"{sys.argv[0]} file_path('./transcript/fireside.txt') | summary_type('qna' | 'lecture') | topic('말 잘하기') | output_path('./output/summary.txt')")
+        print(f"Job {job.id} added to queue. End the program.")
+else:
+    print(f"{sys.argv[0]} file_path('./transcript/fireside.txt') | summary_type('qna' | 'lecture') | topic('말 잘하기') | output_path('./output/summary.txt')")
 
