@@ -27,7 +27,7 @@ export const Home = () => {
 
     try {
       setLoading(true);
-      await axios.post(`${BACKEND_URL}/txt`, formData, {
+      await axios.post(`${BACKEND_URL || 'http://localhost:8000'}/txt`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
