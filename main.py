@@ -19,10 +19,10 @@ from prompt import type2prompt_messages # PROMPTS
 
 MAX_TOKEN_SIZE = {
     "gpt-3.5-turbo" : 4096,
-    "gpt4" : 8192
+    "gpt-4" : 8192
 }
 OUTPUT_TOKEN_SIZE = 1024
-OFFSET = 250 # helping prompts
+OFFSET = 350 #250 # helping prompts
 
 def check_environment()->str:
     "Check for OpenAI API Key. If it exists, return available model"
@@ -34,7 +34,7 @@ def check_environment()->str:
     # check if gpt4 model available
     model = "gpt-3.5-turbo"
     for model_dict in openai.Model.list()['data']:
-        if model_dict["id"] == "gpt4":
+        if model_dict["id"] == "gpt-4":
             model = model_dict["id"]
     print(f"Current model: {model}")
     return model
