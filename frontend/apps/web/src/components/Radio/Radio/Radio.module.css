@@ -1,0 +1,53 @@
+.radioWrapper {
+	position: relative;
+	width: 16px;
+	display: inline-block;
+	flex-shrink: 0;
+	height: 16px;
+	vertical-align: middle;
+}
+
+.radioWrapper input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.radio {
+	width: 100%;
+	background-color: #ffffff;
+	box-sizing: border-box;
+	border-radius: 16px;
+	display: block;
+	height: 100%;
+	cursor: pointer;
+	border: 1px solid #b7b7cb;
+}
+
+input[readonly] + .radio {
+	cursor: default;
+}
+
+.radio span {
+	width: 8px;
+	transition: opacity 0.15s ease-in-out;
+	height: 8px;
+	border-radius: 16px;
+	display: block;
+	margin: 3px auto;
+}
+
+.radioWrapper input:checked + label span {
+	background-color: #e03e3e;
+}
+
+.radioWrapper input:disabled + label {
+	background-color: #e03e3e;
+}
+
+.radioWrapper input:disabled + label span {
+	opacity: 0.5;
+}

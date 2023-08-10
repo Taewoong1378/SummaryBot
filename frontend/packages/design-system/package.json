@@ -1,0 +1,16 @@
+{
+  "name": "design-system",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build:css": "postcss src/styles/index.css -o public/tailwind-inject.css --minify",
+    "watch:css": "nodemon -w styles -e css -x \"npm run build:css\"",
+    "lint": "eslint 'src/components/**/*.{js,ts,tsx}' 'ssrc/tyles/**/*.{js,ts,tsx}' --fix",
+    "tsc:check": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "3.4.0",
+    "nodemon": "^2.0.22",
+    "postcss-cli": "^10.1.0"
+  }
+}

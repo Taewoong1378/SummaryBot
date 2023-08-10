@@ -1,0 +1,96 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+	box-sizing: border-box !important;
+	font-family: "Pretendard Variable";
+	// -webkit-overflow-scrolling: "touch";
+	// user-select: none;
+	// -webkit-touch-callout: none;
+	// -webkit-user-select: none;
+	// -webkit-tap-highlight-color: transparent;
+}
+
+main {
+	max-width: 500px;
+	background-color: #ffffff;
+	margin: auto;
+
+	@media screen and (min-width: 500px) {
+		border-left: #e0e0d1 1px solid;
+		border-right: #e0e0d1 1px solid;
+	}
+}
+
+input,
+textarea {
+	-moz-user-select: auto;
+	-webkit-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+}
+
+html,
+body,
+#app {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	font-family: "Pretendard Variable";
+	height: 100%;
+}
+
+#app {
+	display: flex;
+}
+
+input {
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+button {
+	margin: 0;
+	text-decoration: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+button:focus {
+	outline: none;
+}
+
+table {
+	border-spacing: 0;
+}
+
+tr,
+td,
+th {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	padding: 0;
+}
+
+ol > li::marker {
+	content: counter(list-item) ") ";
+}
+
+.Dropdown-menu {
+	max-height: 70vh !important;
+}
